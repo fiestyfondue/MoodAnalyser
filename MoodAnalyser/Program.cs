@@ -6,8 +6,15 @@ namespace MoodAnalyser
     {
         static void Main(string[] args)
         {
-            MoodAnalyse mood = new MoodAnalyse("SAD");
-            mood.AnalyseMood();
+            //Refactoring for UC2
+
+            Console.WriteLine("Mood Analyser program using Exceptions");
+
+            MoodAnalyse moodAnalysis = new MoodAnalyse("");
+            Console.WriteLine(moodAnalysis.AnalyseMood());
+
+
+
         }
     }
 }
