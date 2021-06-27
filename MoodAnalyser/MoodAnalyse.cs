@@ -25,15 +25,23 @@ namespace MoodAnalyser
             try
             {
                 if (message == null || message == string.Empty)
-                    throw new MoodAnalysisException();
+                    throw new MoodAnalysisException(message);
                 if (message == SAD_MESSAGE)
                     return "SAD";
                 if (message == HAPPY_MESSAGE)
                     return "HAPPY";
             }
-            catch (MoodAnalysisException)
+            catch (MoodAnalysisException ex)
             {
-                return "HAPPY";
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Traversing Done");
             }
             return null;
         }

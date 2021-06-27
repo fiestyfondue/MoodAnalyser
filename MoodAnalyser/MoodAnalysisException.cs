@@ -4,14 +4,26 @@ using System.Text;
 
 namespace MoodAnalyser
 {
-    class MoodAnalysisException : Exception
+    public class MoodAnalysisException : Exception
     {
-        public enum Errors{Empty};
-
-        // custom exception for mood analysis. display an empty or null message
-        public MoodAnalysisException()
+        public enum Errors
         {
-            Console.WriteLine(Errors.Empty);
+            EMPTY,
+            CLASS_ERROR
+
+        }
+        // custom exception for mood analysis. dDisplays an empty message.
+        
+        public MoodAnalysisException(string message)
+        {
+            if (message == null || message == string.Empty)
+            {
+                Console.WriteLine(Errors.EMPTY + ": Mood cannot be empty.");
+            }
+            if (message.Contains("Mood"))
+            {
+                Console.WriteLine(Errors.CLASS_ERROR + ": No Such Class Error.");
+            }
         }
     }
 }

@@ -10,8 +10,8 @@ namespace MoodAnalyser
 
             Console.WriteLine("Mood Analyser program using Exceptions");
 
-            MoodAnalyse moodAnalysis = new MoodAnalyse("");
-            Console.WriteLine(moodAnalysis.AnalyseMood());
+            object objName = MoodAnalyserFactory.CreateObjectAtRuntime("MoodAnalyser.MoodAnalysers");
+            Console.WriteLine(objName);
 
 
 
