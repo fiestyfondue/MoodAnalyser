@@ -4,44 +4,56 @@ using System.Text;
 
 namespace MoodAnalyser
 {
-    public class MoodAnalyse
+    public class MoodAnalyserr
     {
         //constants
         private const string SAD_MESSAGE = "Iam in Sad Mood";
         private const string HAPPY_MESSAGE = "Iam in Any Mood";
         //variables
-        private string message;
-        public MoodAnalyse(string message)
+        private readonly string message;
+        public MoodAnalyserr()
         {
-            this.message = message;
+            message = null;
+            //checking for null
+            if (message != null)
+                message = message.ToLower();
+
         }
-        
-        // Check for mood if sad return sad message and
-        // if happy return happy message.
-        // if mood is null throw an exception invalid mood.
-      
-        public string AnalyseMood()
+        public MoodAnalyserr(string message)
         {
+            if (this.message != null)
+                this.message = message.ToLower();
+        }
+        /// <summary>
+        /// Check for mood if sad return sad message and
+        /// if happy return happy message.
+        /// if mood is null throw an exception invalid mood.
+        /// </summary>
+        /// <param name="message">string passed by user</param>
+        /// <returns></returns>
+        public string MoodCheck()
+        {
+
             try
             {
                 if (message == null || message == string.Empty)
-                    throw new MoodAnalysisException(message);
-                if (message == SAD_MESSAGE)
+                    throw new MoodAnalysisException(MoodAnalysisException.Errors.EMPTY);
+                if (message.Contains("sad"))
                     return "SAD";
-                if (message == HAPPY_MESSAGE)
+                if (message.Contains("happy"))
                     return "HAPPY";
             }
             catch (MoodAnalysisException ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(ex.Message);
             }
             finally
             {
-                Console.WriteLine("Traversing Done");
+                Console.WriteLine("Done");
             }
             return null;
         }

@@ -1,93 +1,94 @@
 using MoodAnalyser;
 using NUnit.Framework;
 using System;
+using System.Reflection;
 
 namespace TestProject1
 {
     public class Tests
     {
-
-
+        // check for sad mood, returns "SAD" message.                 
         [Test]
         public void WhenGivenSadMood_ReturnsSadMessge()
         {
-            //Arrange
-            string message = "Iam in Sad Mood";
-            string expected = "SAD";
-            //Act
-            MoodAnalyse mood = new MoodAnalyse(message);
-            string result = mood.AnalyseMood();
-            //Assert
-            Assert.AreEqual(expected, result);
-        }
-
-        // Checking for Happy mood, return "HAPPY" message.
-
-        [Test]
-        public void WhenGivenHappyMood_ReturnsHappyMessage()
-        {
-            //Arrange
-            string message = "Iam in Happy Mood";
-            string expected = "HAPPY";
-            //Act
-            MoodAnalyse mood = new MoodAnalyse(message);
-            string result = mood.AnalyseMood();
-            //Assert
-            Assert.AreEqual(expected, result);
-        }
-        /// <summary>
-        /// check for invalid mood, returns "HAPPY" message.
-        /// </summary>
-        [Test]
-        public void WhenGivenInvalidMood_ReturnsHappyMessageorException()
-        {//passing improper class name will return Null value which means an improper class name has been used
-         //passed and throws a custom exception NO Such Class Error.
             try
             {
                 //Arrange
-                string message = "";
-                string expected = "HAPPY";
+                string message = "Iam in Sad Mood";
+                string expected = "SAD";
                 //Act
-                MoodAnalyse mood = new MoodAnalyse(message);
-                string result = mood.AnalyseMood();
+                MoodAnalyserr mood = new MoodAnalyserr(message);
+                string result = mood.MoodCheck();
                 //Assert
                 Assert.AreEqual(expected, result);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                System.Console.WriteLine(e.Message);
+                Console.WriteLine(ex.Message);
             }
+
         }
+        
+        // Check for Happy mood, return "HAPPY" message.
+                      
         [Test]
-        public void WhenGivenClassName_ReturnObject()
+        public void WhenGivenHappyMood_ReturnsHappyMessage()
         {
             try
             {
                 //Arrange
-                object tempObject = MoodAnalyserFactory.CreateObjectAtRuntime("MoodAnalyse.AnalyseMood");
-
+                string message = "Iam in Any Mood";
+                string expected = "HAPPY";
                 //Act
-                string expected = "MoodAnalyse.AnalyseMood";
-                string result = "MoodAnalyse.AnalyseMood";
+                MoodAnalyserr mood = new MoodAnalyserr(message);
+                string result = mood.MoodCheck();
                 //Assert
                 Assert.AreEqual(expected, result);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-
             }
+
         }
+                      
+        // check for invalid mood, returns "HAPPY" message.
+                       
         [Test]
-        public void WhenGivenImproperClassName_ReturnsException()
+        public void WhenGivenInvalidMood_ReturnsHappyMessage()
         {
             try
             {
                 //Arrange
-                object tempObject = MoodAnalyserFactory.CreateObjectAtRuntime("MoodAnalyse.AnalyseMood");
-                //Act
+                string message = "";
                 string expected = null;
-                string result = null;
+                //Act
+                MoodAnalyserr mood = new MoodAnalyserr(message);
+                string result = mood.MoodCheck();
+                //Assert
+                Assert.AreEqual(expected, result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+                     
+        // check when given Class name should return object name
+                      
+        [Test]
+        public void WhenGivenClassName_ReturnsObject()
+        {
+            try
+            {
+                //testing with default constructor
+                MoodAnalyserFactory moodAnalyserFactory = new MoodAnalyserFactory();
+                object tempObject = moodAnalyserFactory.CreateObjectAtRuntime();
+                //Arrange
+                string expected = "MoodAnalyser.MoodAnalyserr";
+                //Act
+                string result = tempObject.ToString();
                 //Assert
                 Assert.AreEqual(expected, result);
             }
@@ -95,15 +96,143 @@ namespace TestProject1
             {
                 Console.WriteLine(ex.Message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
             finally
             {
-                Console.WriteLine("Done TestCase");
+                Console.WriteLine("Done Test case: WhenGivenClassName_ReturnsObject");
             }
-            
+        }
+                     
+        // Test case 4.2 - Given Class Name When Improper Should Throw MoodAnalysisException with Parameterized Constructor
+                      
+        [Test]
+        public void WhenGivenClassNameImproper_ThrowsMoodAnalysisException()
+        {
+            try
+            {
+                //passing improper class name will return me Null value which means an improper class name has been
+                //passed and throws me an custom exception NO Such Class Error.
+                MoodAnalyserFactory moodAnalyserFactory = new MoodAnalyserFactory();
+                object tempObject = moodAnalyserFactory.CreateObjectAtRuntime();
+                //Arrange
+                string expected = null;
+                //Act
+                string result = null;
+                //Assert
+                Assert.AreEqual(result, expected);
+            }
+            catch (MoodAnalysisException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Done Test case: WhenGivenClassNameWrong_ThrowsMoodAnalysisException");
+            }
+        }
+
+                     
+        // Test Case 5.1 - check when given Class name should return object name
+                      
+        [Test]
+        public void WhenGivenMoodAnalyserProper_ReturnsObject()
+        {
+            try
+            {
+                //testing with parameterized constructor
+                MoodAnalyserFactory moodAnalyserFactory = new MoodAnalyserFactory("MoodAnalyser.MoodAnalyserr");
+                //creating moodanalyser class with parameterized constructor
+                object tempObject = moodAnalyserFactory.CreateObjectAtRuntime();
+                //Arrange
+                string expected = "MoodAnalyser.MoodAnalyserr";
+                //Act
+                string result = tempObject.ToString();
+                //Assert
+                Assert.AreEqual(expected, result);
+            }
+            catch (MoodAnalysisException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Done Test case: WhenGivenClassName_ReturnsObject");
+            }
+        }
+                      
+        /// Test case 5.2 - Given Class Name When Improper Should Throw MoodAnalysisException with Parameterized Constructor
+               
+        [Test]
+        public void GivenClassNameImproper_ThrowsMoodAnalysisException()
+        {
+            try
+            {
+                //passing improper class name will return a Null value means an improper class name has been passed and throws me an custom exception NO Such Class Error.
+                MoodAnalyserFactory moodAnalyserFactory = new MoodAnalyserFactory("MoodAnalyser.MoodAnalyserr");
+                object tempObject = moodAnalyserFactory.CreateObjectAtRuntime();
+                //Arrange
+                string expected = null;
+                //Act
+                string result = null;
+                //Assert
+                Assert.AreEqual(result, expected);
+            }
+            catch (MoodAnalysisException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Done Test case: WhenGivenClassNameWrong_ThrowsMoodAnalysisException");
+            }
+        }
+      
+        // passing wrong constructor parameter
+                      
+        [Test]
+        public void GivenConstructorParameterImproper_ThrowsMoodAnalysisException()
+        {
+            try
+            {
+                //passing improper class name will return a Null value which means an improper class name has been passed and throws me an custom exception NO Such Class Error.
+                MoodAnalyserFactory moodAnalyserFactory = new MoodAnalyserFactory();
+                //passing the wrong constructor parameter to catch the exception, return null value
+                ConstructorInfo constructorObj = moodAnalyserFactory.GetConstructor(1);
+                var constructor = moodAnalyserFactory.CreateConstructor("MoodAnalyser.MoodAnalyserr", constructorObj);
+                //Arrange
+                string expected = null;
+                //Act
+                string result = constructor.ToString();
+                //Assert
+                Assert.AreEqual(result, expected);
+            }
+            catch (MoodAnalysisException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                Console.WriteLine("Done Test case: WhenGivenClassNameWrong_ThrowsMoodAnalysisException");
+            }
         }
     }
 }

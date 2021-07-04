@@ -9,20 +9,26 @@ namespace MoodAnalyser
         public enum Errors
         {
             EMPTY,
-            CLASS_ERROR
-
+            CLASS_ERROR,
+            METHOD_ERROR
         }
-        // custom exception for mood analysis. dDisplays an empty message.
-        
-        public MoodAnalysisException(string message)
+        public Errors errors;
+        /// <summary>
+        /// custom exception for mood analysis. display an empty message.
+        /// </summary>
+        public MoodAnalysisException(Errors errors)
         {
-            if (message == null || message == string.Empty)
+            if (errors == Errors.EMPTY)
             {
-                Console.WriteLine(Errors.EMPTY + ": Mood cannot be empty.");
+                Console.WriteLine(errors + ": Mood cannot be empty.");
             }
-            if (message.Contains("Mood"))
+            if (errors == Errors.CLASS_ERROR)
             {
-                Console.WriteLine(Errors.CLASS_ERROR + ": No Such Class Error.");
+                Console.WriteLine(errors + ": No Such Class Error.");
+            }
+            if (errors == Errors.METHOD_ERROR)
+            {
+                Console.WriteLine(errors + " : No such method error");
             }
         }
     }
